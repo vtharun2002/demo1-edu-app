@@ -43,7 +43,6 @@
 						</div>
 						<button type="submit" class="btn btn-info">Login</button>
 						<button type="reset" class="btn btn-danger">Cancel</button>
-						<a href="https://www.terraform.io/">
 					</form>
 				</div>
 			</div>
