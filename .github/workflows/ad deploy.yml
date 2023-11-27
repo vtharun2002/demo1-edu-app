@@ -1,0 +1,43 @@
+name: Advanced deploy
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  EC2-Deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: "EC2"
+      url: ${{ steps.deploy.outputs.vm_url }}
+    steps:
+    - id: deploy
+      name: Deploy
+      uses: vtharun2002/github-actions-deploy-docker-to-ec2@v1.0.0
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws_default_region: us-east-1
+        #aws_additional_tags: '{\"key\":\"value\",\"key2\":\"value2\"}'
+
+        aws_r53_enable: true
+        aws_r53_domain_name: bitovi.com
+        aws_r53_sub_domain_name: app
+        aws_r53_create_sub_cert: true
+
+        ansible_start_docker_timeout: 600
+
+        env_ghs: ${{ secrets.DOT_ENV }}
+        env_ghv: ${{ vars.VARS }}
+        env_aws_secret: some-secret,some-other
+        aws_elb_app_port: 3000,8080
+        aws_elb_listen_port: 443,8080
+        aws_elb_healthcheck: "HTTP:8080"
+        
+        docker_cloudwatch_enable: true
+        docker_cloudwatch_retention_days: 7
+
+        aws_rds_db_enable: true
