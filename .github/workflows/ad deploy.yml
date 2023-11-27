@@ -24,7 +24,7 @@ jobs:
         #aws_additional_tags: '{\"key\":\"value\",\"key2\":\"value2\"}'
 
         aws_r53_enable: true
-        aws_r53_domain_name: bitovi.com
+        aws_r53_domain_name: vtharun2002.com
         aws_r53_sub_domain_name: app
         aws_r53_create_sub_cert: true
 
